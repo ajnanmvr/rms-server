@@ -10,10 +10,10 @@ const CandidateSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum:["Junior","Senior"],
+    enum: ["Junior", "Senior"],
     required: [true, "Please provide a category"],
   },
-  programs: {
+  program: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "Program",
@@ -26,5 +26,8 @@ const CandidateSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
+dataSchema.pre("find", function (next) {
+  this.populate("program");
+  next();
+});
 module.exports = mongoose.model("Candidate", CandidateSchema);
