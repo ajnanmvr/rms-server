@@ -15,7 +15,11 @@ const ConnectDB = async () => {
 App.get("/", (req, res) => {
   res.send("Welcome to the API Homepage!");
 });
-
+App.all("*", (req, res) => {
+    res.status(400).json({
+      error: `${req.originalUrl} [${req.method}] is not found in this server`,
+    });
+  });
 App.listen(PORT, () => {
   ConnectDB();
   console.log(`listening on port ${PORT}!`);
